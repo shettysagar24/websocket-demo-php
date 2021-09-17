@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="text/javascript" src="autobahn.js"></script>
+</head>
+<body>
+<input type="text" id="message" />
+<button onclick="transmitMessage()">Send</button>
+<script>
+
+  // var socket  = new WebSocket('ws://localhost:8080');
+  //
+  // // Define the
+  // var message = document.getElementById('message');
+  //
+  // function transmitMessage() {
+  //   socket.send( message.value );
+  // }
+  //
+  // socket.onmessage = function(e) {
+  //   alert( e.data );
+  // }
+</script>
+
+
+<script>
+    var conn = new ab.Session('ws://localhost:8080',
+        function() {
+            conn.subscribe('TestTopic2', function(topic, data) {
+                // This is where you would add the new article to the DOM (beyond the scope of this tutorial)
+                console.log('Topic:"' + topic + '":: Data:' + data);
+                console.log("Data ::"+ JSON.parse(data));
+                alert(JSON.parse(data));
+            });
+        },
+        function() {
+            console.warn('WebSocket connection closed');
+        },
+        {'skipSubprotocolCheck': true, 'verify_peer': false}
+    );
+
+
+    var message = document.getElementById('message');
+    function sendMessage() {
+        conn.send( message.value );
+    }
+
+
+</script>
+</body>
+</html>

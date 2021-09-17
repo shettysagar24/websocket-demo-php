@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="text/javascript" src="autobahn.js"></script>
+</head>
+<body>
+<input type="text" id="message" />
+<button onclick="sendMessage()">Send</button>
+<script>
+
+  var socket  = new WebSocket('ws://localhost:8080?channel=channel_1');
+
+  // Define the
+  var input = document.getElementById('message');
+
+
+  function sendMessage() {
+      var message ={};
+      message['channel'] = "channel_1";
+      message['message'] = input.value;
+    socket.send( JSON.stringify(message));
+  }
+
+  socket.onmessage = function(e) {
+      console.log(e);
+    alert( e.data );
+  }
+</script>
+
+
+<script>
+    // var conn = new ab.Session('ws://localhost:8080',
+    //     function(session_id, wamp_version, server) {
+    //         console.log(session_id, wamp_version, server);
+    //         conn.subscribe('TestTopic', function(topic, data) {
+    //             console.log('Topic:"' + topic + '":: Data:' + data);
+    //             console.log(JSON.parse(data));
+    //             alert((data));
+    //         });
+    //     },
+    //     function() {
+    //         console.warn('WebSocket connection closed');
+    //     },
+    //     {'skipSubprotocolCheck': true, 'verify_peer': false}
+    // );
+    //
+    //
+    // var message = document.getElementById('message');
+    // function sendMessage() {
+    //     conn.publish( 'TestTopic', message.value );
+    // }
+
+
+</script>
+</body>
+</html>
